@@ -1,15 +1,15 @@
-module UART_TX_TOP (
+module UART_TX_TOP #(parameter CLKS_PER_BIT=5208)(
    input wire [7:0] p_data,
    input wire data_valid, clk, rst,
    //input wire par_en, par_typ,
    output wire tx_out, busy, uart_tx_done
 );
 
-wire ser_done, ser_en, ser_data, uart_tx_data; 
+wire ser_done, ser_en, ser_data; 
 //wire par_bit;
 wire [1:0] mux_sel;
 
-UART_TX_FSM FSM (
+UART_TX_FSM #(.CLKS_PER_BIT(CLKS_PER_BIT)) FSM (
 	.clk(clk),
 	.rst(rst),
 	.data_valid(data_valid),
@@ -36,7 +36,7 @@ mux_4_to_1 mux (
 	.mux_out(tx_out)
 );
 
-serializer serializer_unit (
+serializer #(.CLKS_PER_BIT(CLKS_PER_BIT)) serializer_unit (
 	.p_data(p_data),
 	.ser_en(ser_en),
 	.clk(clk),

@@ -1,0 +1,57 @@
+C:/Users/user/git_repos/NTI/UART/UART_tx/mux_4_to_1.v {1 {vlog -work work -vopt -stats=none C:/Users/user/git_repos/NTI/UART/UART_tx/mux_4_to_1.v
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module mux_4_to_1
+
+Top level modules:
+	mux_4_to_1
+
+} {} {}} C:/Users/user/git_repos/NTI/UART/UART_tx/UART_TX_FSM.v {1 {vlog -work work -vopt -stats=none {C:\Users\user\git_repos\NTI\UART\UART_tx\UART_TX_FSM.v}
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module UART_TX_FSM
+
+Top level modules:
+	UART_TX_FSM
+
+} {} {}} C:/Users/user/git_repos/NTI/UART/UART_tx/UART_TX_TB.v {1 {vlog -work work -vopt -stats=none C:/Users/user/git_repos/NTI/UART/UART_tx/UART_TX_TB.v
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module UART_TX_TB
+
+Top level modules:
+	UART_TX_TB
+
+} {} {}} C:/Users/user/git_repos/NTI/UART/UART_tx/UART_TX_TOP.v {1 {vlog -work work -vopt -stats=none C:/Users/user/git_repos/NTI/UART/UART_tx/UART_TX_TOP.v
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module UART_TX_TOP
+
+Top level modules:
+	UART_TX_TOP
+
+} {} {}} C:/Users/user/git_repos/NTI/UART/UART_tx/UART_TX_REG_FILE_TOP.v {1 {vlog -work work -vopt -stats=none C:/Users/user/git_repos/NTI/UART/UART_tx/UART_TX_REG_FILE_TOP.v
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module UART_TX_REG_FILE_TOP
+
+Top level modules:
+	UART_TX_REG_FILE_TOP
+
+} {} {}} C:/Users/user/git_repos/NTI/UART/UART_tx/serializer.v {1 {vlog -work work -vopt -stats=none C:/Users/user/git_repos/NTI/UART/UART_tx/serializer.v
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module serializer
+
+Top level modules:
+	serializer
+
+} {} {}} C:/Users/user/git_repos/NTI/UART/UART_tx/reg_file_yasmine.v {1 {vlog -work work -vopt -stats=none C:/Users/user/git_repos/NTI/UART/UART_tx/reg_file_yasmine.v
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module reg_file
+
+Top level modules:
+	reg_file
+
+} {} {}} C:/Users/user/git_repos/NTI/UART/UART_tx/reg_file_tb.v {1 {vlog -work work -vopt -stats=none C:/Users/user/git_repos/NTI/UART/UART_tx/reg_file_tb.v
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module reg_file_tb
+
+Top level modules:
+	reg_file_tb
+
+} {} {}}

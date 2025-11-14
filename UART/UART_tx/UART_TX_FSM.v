@@ -1,7 +1,7 @@
 module UART_TX_FSM 
 #(parameter 
-	CLK_PER_BIT= 5208, //50 mega divided 9600 Hz //since the FPGA clk is 50 Mhz and UART is 9600
-	CLK_COUNTER_WIDTH= $clog2(CLK_PER_BIT)
+	CLKS_PER_BIT= 5208, //50 mega divided 9600 Hz //since the FPGA clk is 50 Mhz and UART is 9600
+	CLK_COUNTER_WIDTH= $clog2(CLKS_PER_BIT)
 )
 (
 input wire clk, rst,
@@ -21,17 +21,23 @@ parameter
 
 reg [CLK_COUNTER_WIDTH-1:0] clk_counter;
 reg [2:0] cs,ns;
+reg clk_counter_done;
+reg last_bit;
 
 always @(negedge clk or negedge rst) begin
 	if (!rst) begin
 		clk_counter<='b0;
+		clk_counter_done<= 1'b0;
 	end
-	else if (clk_counter==CLK_PER_BIT) begin
+	else if (clk_counter==CLKS_PER_BIT-1) begin
 		clk_counter<= 'b0;
+		clk_counter_done<=1'b1;
 	end
-	else if (ns==START | ns==STOP) begin
+	else if (cs==START | cs==STOP) begin
 		clk_counter <= clk_counter+1;
+		clk_counter_done<=1'b0;
 	end
+	
 end
 
 always @(posedge clk or negedge rst) begin
@@ -51,7 +57,7 @@ always @(*) begin
 	end 
 
 	START: begin
-		   ns= (clk_counter == CLK_PER_BIT)? DATA: START;
+		   ns= (clk_counter_done)? DATA: START;
 	end
 
 	DATA: begin
@@ -63,7 +69,7 @@ always @(*) begin
         else 
            ns=DATA;
 		*/
-		if (ser_done & clk_counter == CLK_PER_BIT ) begin
+		if (ser_done) begin
 			ns=STOP;
 		end
 		else begin
@@ -72,10 +78,10 @@ always @(*) begin
 	end
 
 	STOP: begin
-		if (data_valid & clk_counter == CLK_PER_BIT) 
-		   ns=START;
-		else 
+		if (clk_counter_done)
 		   ns=IDLE;
+		else 
+		   ns=STOP;
 	end
 
 	default: begin
@@ -91,12 +97,18 @@ end
 always @(posedge clk or negedge rst) begin
 	if (!rst) begin
 		uart_tx_done <= 1'b0; 
+		last_bit <=1'b0;
 	end
-	else if (cs==STOP) begin
+	else if (last_bit) begin
 		uart_tx_done <= 1'b1;
+		last_bit<=1'b0;
+	end
+	else if (cs==STOP && clk_counter == CLKS_PER_BIT-1) begin
+		last_bit<=1'b1;
 	end
 	else begin
 		uart_tx_done <= 1'b0;
+		last_bit<=1'b0;
 	end
 end
 
@@ -108,7 +120,7 @@ always @(*) begin
 
 	case (cs)
 	START: begin
-		ser_en=1'b1;
+		ser_en=1'b0;
 		busy=1'b1;
 		mux_sel=2'b00;
 	end 

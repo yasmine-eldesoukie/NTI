@@ -1,4 +1,4 @@
-module UART_TX_REG_FILE_TOP ( //wrapper
+module UART_TX_REG_FILE_TOP #(parameter CLKS_PER_BIT=5208)( //wrapper
     //reg_file
     input wire clk, rst,
     input wire wr_en, rd_en, 
@@ -10,11 +10,13 @@ module UART_TX_REG_FILE_TOP ( //wrapper
 );
 
 wire busy, uart_tx_done;
+wire data_valid;
+wire [7:0] tx_p_data;
 
-UART_TX_TOP uart_tx (
+UART_TX_TOP #(.CLKS_PER_BIT(CLKS_PER_BIT)) uart_tx (
     .clk(clk),
     .rst(rst),
-    .data_valid(uart_tx_data_valid),
+    .data_valid(data_valid),
     .p_data(tx_p_data),
     .busy(busy),
     .uart_tx_done(uart_tx_done),
@@ -32,7 +34,7 @@ reg_file reg_file (
     .rd_data(rd_data),
     .busy(busy), 
     .uart_tx_done(uart_tx_done),
-    .tx_p_data(p_data),
+    .tx_p_data(tx_p_data),
     .uart_tx_data_valid(data_valid)
 );
 endmodule

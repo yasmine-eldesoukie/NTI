@@ -8,7 +8,7 @@ module reg_file #(parameter
     input wire wr_addr, rd_addr,
     input wire [7:0] wr_data,
     output reg [7:0] rd_data,
-    //uart_tx
+    //uart_tx interface
     input wire busy, uart_tx_done,
     output wire [7:0] tx_p_data,
     output wire uart_tx_data_valid //enable signal for uart_tx
@@ -22,6 +22,7 @@ always @(posedge clk or negedge rst) begin
         reg_tx_data <= 'b0;
         reg_rx_data <= 'b0;
         reg_status  <= 'b0;
+        rd_data     <= 'b0;
     end
     else begin
         /*if (uart_rx_ready)
