@@ -1,0 +1,32 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/shosh_yasmine_NTI/UART/UART_RX_NTI
+vUART_RX
+!s110 1763211835
+!i10b 1
+!s100 ]ZQcQ8K_OiPNT;DD83]hG3
+I4BP4;NEaPWWW3jiaFDB7Y1
+VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1763211826
+8UART_RX.v
+FUART_RX.v
+L0 1
+OL;L;10.7c;67
+r1
+!s85 0
+31
+!s108 1763211835.000000
+!s107 UART_RX.v|
+!s90 UART_RX.v|
+!i113 0
+o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+tCvgOpt 0
+n@u@a@r@t_@r@x
