@@ -32,7 +32,6 @@ reg bit_counter_en, clk_counter_en, sample_en;
     end
     else if (clk_counter_en) begin
         clk_counter<= clk_counter -1;
-        sample_en= (clk_counter== (CLKS_PER_BIT/2) -1);
         clk_counter_done<= 1'b0;
     end
  end
@@ -42,6 +41,9 @@ reg bit_counter_en, clk_counter_en, sample_en;
     if (!rst) begin
         bit_counter<= 'b0;
         bit_counter_done <=1'b0;
+    end
+    else if (cs != DATA) begin
+        bit_counter_done<= 1'b0; //turn it off after DATA is done so that it doesn't end the DATA state in the next frame by mistake
     end
     else if (bit_counter==7 && clk_counter_done) begin
         bit_counter<= 'b0;
@@ -58,10 +60,10 @@ reg bit_counter_en, clk_counter_en, sample_en;
  //shift register
  always @(posedge clk or negedge rst) begin
     if (!rst) begin
-        rx_data_out <='b0;
+        rx_data_out <='bx;
     end
-    else if (sample_en) begin
-        rx_data_out <= {tx_data_out,rx_data_out[6:1]};
+    else if (sample_en && ns==DATA) begin //ns not cs so that the stop bit doesn't overwrite the data reg
+        rx_data_out <= {tx_data_out,rx_data_out[7:1]};
     end
  end
 
@@ -101,7 +103,7 @@ reg bit_counter_en, clk_counter_en, sample_en;
             if (bit_counter_done && sample_en && tx_data_out==1'b1) begin
                 ns= DONE;
             end
-            else if (bit_counter_done && sample_en && tx_data_out==1'b1) begin
+            else if (bit_counter_done && sample_en && tx_data_out==1'b0) begin
                 ns= ERR;
             end
             else begin
@@ -114,7 +116,7 @@ reg bit_counter_en, clk_counter_en, sample_en;
         end
 
         DONE: begin
-            ns= DONE;
+            ns= IDLE;
         end
 
         default: begin
@@ -127,8 +129,10 @@ reg bit_counter_en, clk_counter_en, sample_en;
  always @(*) begin
     rx_busy= (cs==START || cs==DATA );
     rx_done= (cs==DONE);
-    bit_counter_en= (ns==DATA);
     error= (cs==ERR);
+    clk_counter_en= (ns==START || ns==DATA);
+    bit_counter_en= (cs==DATA && clk_counter_done); //this means bit 0 has been sampled, since bit_counter already starts at 0 , if updated with ns==data, counter never stops
+    sample_en= (clk_counter== ((CLKS_PER_BIT/2)-1));
  end    
 
 endmodule
